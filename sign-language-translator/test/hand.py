@@ -5,8 +5,6 @@ import time
 import cv2
 import mediapipe as mp
 
-фыфчс
-# ПУТИ К ФАЙЛАМ
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 MODELS_DIR = PROJECT_DIR / "models"
 MODEL_PATH = MODELS_DIR / "hand_landmarker.task"
@@ -17,7 +15,6 @@ MODEL_URL = (
     "hand_landmarker.task"
 )
 
-# СКАЧИВАЕМ МОДЕЛЬ, ЕСЛИ ЕЁ НЕТ
 MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
 if not MODEL_PATH.is_file():
@@ -26,7 +23,6 @@ if not MODEL_PATH.is_file():
     print("Модель скачана:", MODEL_PATH)
 
 
-# НАСТРОЙКИ MEDIAPIPE
 BaseOptions = mp.tasks.BaseOptions
 HandLandmarker = mp.tasks.vision.HandLandmarker
 HandLandmarkerOptions = mp.tasks.vision.HandLandmarkerOptions
@@ -41,7 +37,6 @@ options = HandLandmarkerOptions(
 )
 
 
-# СОЕДИНЕНИЯ ТОЧЕК РУКИ
 CONNECTIONS = [
     (0, 1), (1, 2), (2, 3), (3, 4),
     (0, 5), (5, 6), (6, 7), (7, 8),
@@ -52,7 +47,6 @@ CONNECTIONS = [
 ]
 
 
-# ОТКРЫВАЕМ КАМЕРУ
 cap = cv2.VideoCapture(1)
 
 if not cap.isOpened():
@@ -103,7 +97,6 @@ try:
                     y = int(point.y * height)
                     points.append((x, y))
 
-                # Рисуем соединения
                 for start, end in CONNECTIONS:
                     cv2.line(
                         frame,
@@ -113,7 +106,6 @@ try:
                         2
                     )
 
-                # Рисуем 21 точку и номера
                 for index, (x, y) in enumerate(points):
                     cv2.circle(
                         frame,
@@ -133,7 +125,6 @@ try:
                         1
                     )
 
-                # Координаты кончика указательного пальца
                 point_8 = hand[8]
 
                 print(

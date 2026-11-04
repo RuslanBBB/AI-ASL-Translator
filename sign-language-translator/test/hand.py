@@ -1,6 +1,7 @@
 from pathlib import Path
 from urllib.request import urlretrieve
 import time
+import math
 
 import cv2
 import mediapipe as mp
@@ -47,7 +48,7 @@ CONNECTIONS = [
 ]
 
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 if not cap.isOpened():
     raise RuntimeError("Не удалось открыть камеру")
@@ -125,14 +126,31 @@ try:
                         1
                     )
 
-                point_8 = hand[8]
+                wrist = hand[0]
 
-                print(
-                    f"Рука {hand_index + 1}: "
-                    f"x={point_8.x:.3f}, "
-                    f"y={point_8.y:.3f}, "
-                    f"z={point_8.z:.3f}"
-                )
+                middle_base = hand[9]
+
+                dx = middle_base.x - wrist.x
+                dy = middle_base.y - wrist.y
+
+                scale = math.sqrt(dx**2 + dy**2)
+
+                relative_points = []
+
+                if scale > 1e-6:
+                    for point in hand:
+                        x = point.x - wrist.x
+                        y = point.y - wrist.y
+
+                        relative_points.append([x, y])
+
+                print(f"Рука {hand_index + 1}")
+
+                for index in [4, 8, 12, 16, 20]:
+                    x = relative_points[index][0]
+                    y = relative_points[index][1]
+
+                    print(f"Точка {index}: x={x:.3f}, y={y:.3f}")
 
             cv2.imshow("Hand Tracking", frame)
 

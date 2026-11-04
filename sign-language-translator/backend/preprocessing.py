@@ -1,6 +1,5 @@
 import math
 
-
 def normalize_landmarks(hand):
     wrist = hand[0]
     middle_base = hand[9]

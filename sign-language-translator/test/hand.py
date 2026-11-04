@@ -2,7 +2,7 @@ from pathlib import Path
 from urllib.request import urlretrieve
 import time
 import math
-
+from backend.preprocessing import normalize_landmarks
 import cv2
 import mediapipe as mp
 
@@ -125,26 +125,19 @@ try:
                         (0, 255, 255),
                         1
                     )
+# кисть
+                features = normalize_landmarks(hand)
 
-                wrist = hand[0]
-
-                middle_base = hand[9]
-
-                dx = middle_base.x - wrist.x
-                dy = middle_base.y - wrist.y
-
-                scale = math.sqrt(dx**2 + dy**2)
-
-                relative_points = []
-
-                if scale > 1e-6:
-                    for point in hand:
-                        x = point.x - wrist.x
-                        y = point.y - wrist.y
-
-                        relative_points.append([x, y])
+                if features is None:
+                    continue
 
                 print(f"Рука {hand_index + 1}")
+
+                for index in [4, 8, 12, 16, 20]:
+                    x = features[index * 2]
+                    y = features[index * 2 + 1]
+
+                    print(f"Точка {index}: x={x:.3f}, y={y:.3f}")
 
                 for index in [4, 8, 12, 16, 20]:
                     x = relative_points[index][0]

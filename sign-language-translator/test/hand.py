@@ -1,7 +1,11 @@
 from pathlib import Path
 from urllib.request import urlretrieve
 import time
-import math
+import sys
+
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_DIR))
+
 from backend.preprocessing import normalize_landmarks
 import cv2
 import mediapipe as mp
@@ -136,12 +140,6 @@ try:
                 for index in [4, 8, 12, 16, 20]:
                     x = features[index * 2]
                     y = features[index * 2 + 1]
-
-                    print(f"Точка {index}: x={x:.3f}, y={y:.3f}")
-
-                for index in [4, 8, 12, 16, 20]:
-                    x = relative_points[index][0]
-                    y = relative_points[index][1]
 
                     print(f"Точка {index}: x={x:.3f}, y={y:.3f}")
 

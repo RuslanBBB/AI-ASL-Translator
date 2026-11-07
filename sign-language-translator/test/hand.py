@@ -7,6 +7,8 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_DIR))
 
 from backend.preprocessing import normalize_landmarks
+from backend.collector import save_sample
+
 import cv2
 import mediapipe as mp
 
@@ -52,7 +54,9 @@ CONNECTIONS = [
 ]
 
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
+
+session_id = "session_01"
 
 if not cap.isOpened():
     raise RuntimeError("Не удалось открыть камеру")
@@ -145,8 +149,18 @@ try:
 
             cv2.imshow("Hand Tracking", frame)
 
-            if cv2.waitKey(1) & 0xFF == ord("q"):
+            key = cv2.waitKey(1) & 0xFF
+
+            if key == ord("q"):
                 break
+
+            if key == ord("a"):
+                if len(result.hand_landmarks) == 1:
+                    features = normalize_landmarks(result.hand_landmarks[0])
+
+                    if features is not None:
+                        save_sample("C", features, session_id)
+                        print("Сохранён пример буквы C")
 
 finally:
     cap.release()

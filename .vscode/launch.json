@@ -1,0 +1,18 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Hand Tracking",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/sign-language-translator/test/hand.py",
+            "cwd": "${workspaceFolder}/sign-language-translator",
+            "python": "${workspaceFolder}/.venv/bin/python",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/sign-language-translator"
+            },
+            "console": "integratedTerminal"
+        }
+    ]
+}

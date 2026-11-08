@@ -56,7 +56,7 @@ CONNECTIONS = [
 
 cap = cv2.VideoCapture(1)
 
-session_id = "session_01"
+session_id = "session_02"
 
 if not cap.isOpened():
     raise RuntimeError("Не удалось открыть камеру")
@@ -154,13 +154,17 @@ try:
             if key == ord("q"):
                 break
 
-            if key == ord("a"):
+            if key in [ord("a"), ord("b"), ord("c")]:
                 if len(result.hand_landmarks) == 1:
-                    features = normalize_landmarks(result.hand_landmarks[0])
+                    label = chr(key).upper()
+
+                    features = normalize_landmarks(
+                        result.hand_landmarks[0]
+                    )
 
                     if features is not None:
-                        save_sample("C", features, session_id)
-                        print("Сохранён пример буквы C")
+                        save_sample(label, features, session_id)
+                        print(f"Сохранён пример буквы {label}")
 
 finally:
     cap.release()

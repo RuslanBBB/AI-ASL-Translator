@@ -1,43 +1,90 @@
 from pathlib import Path
-
-import matplotlib.pyplot as plt
-import pandas as pd
-from sklearn.decomposition import PCA
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.neighbors import KNeighborsClassifier
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 
-PROJECT_DIR = Path(__file__).resolve().parent.parent
-DATA_PATH = PROJECT_DIR / "data" / "landmarks.csv"
-PLOT_PATH = PROJECT_DIR / "data" / "pca_clusters.png"
+plt.style.use('ggplot')
+plt.rcParams['figure.figsize'] = (15, 5)
+
+DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "landmarks.csv"
+
+# fixed_df = pd.read_csv(DATA_PATH) кол-во букв в датасете
+
+# print(fixed_df.shape)
+# print(fixed_df["label"].value_counts())
+
 
 df = pd.read_csv(DATA_PATH)
 
-# Одинаковый порядок 42 признаков для обучения и проверки.
+# обучение
+
+# print(df.head()) первые 5 строк
+# print(df.shape) тут табличка наша разделенная удобно
+
+# print(df.columns)
+
+# print(df.dtypes) типы данных
+
+# print(df.info) проверка на пустые значения в столбцах
+
+
+
+
+
+
+train_df = df[df["session_id"] == "session_01"]
+
 feature_columns = []
+
 for i in range(21):
     feature_columns.append(f"x{i}")
     feature_columns.append(f"y{i}")
 
-train_df = df[df["session_id"] == "session_01"]
-validation_df = df[df["session_id"] == "session_02"]
-
 X_train = train_df[feature_columns]
 y_train = train_df["label"]
-X_validation = validation_df[feature_columns]
-y_validation = validation_df["label"]
 
-# KNN использует все 42 признака. PCA нужен только для графика.
 model = KNeighborsClassifier(n_neighbors=5)
 model.fit(X_train, y_train)
+
+KNeighborsClassifier(
+    n_neighbors=5,
+    weights="uniform",
+)
+
+validation_df = df[df["session_id"] == "session_02"]
+
+feature_columns_1 = []
+
+for i in range(21):
+    feature_columns_1.append(f"x{i}")
+    feature_columns_1.append(f"y{i}")
+
+
+X_validation = validation_df[feature_columns_1]
+y_validation = validation_df['label']
+
 y_pred = model.predict(X_validation)
 
-print("Train:", X_train.shape)
-print("Validation:", X_validation.shape)
+# print("Предсказания:", y_pred)
+# print("Правильные ответы:", y_validation.to_numpy())
+
 print("Accuracy:", accuracy_score(y_validation, y_pred))
+
 print(classification_report(y_validation, y_pred))
+
 print("Порядок классов:", model.classes_)
-print(confusion_matrix(y_validation, y_pred, labels=model.classes_))
+print(confusion_matrix(
+    y_validation,
+    y_pred,
+    labels=model.classes_,
+))
+
+# Визуализация PCA — добавлено Codex. Код обучения выше сохранён.
+from sklearn.decomposition import PCA
 
 # PCA обучается только на train; validation использует те же оси.
 pca = PCA(n_components=2)
@@ -69,9 +116,10 @@ ax.set_title("Примеры жестов: PCA с 42 признаков на 2 �
 ax.legend()
 ax.grid(alpha=0.3)
 fig.tight_layout()
-fig.savefig(PLOT_PATH, dpi=180)
+plot_path = DATA_PATH.parent / "pca_clusters.png"
+fig.savefig(plot_path, dpi=180)
 
 print("PCA сохраняет долю дисперсии:", f"{variance.sum():.1%}")
 print("Это доля разброса данных, а не точность классификации.")
-print("График сохранён:", PLOT_PATH)
+print("График сохранён:", plot_path)
 plt.show()

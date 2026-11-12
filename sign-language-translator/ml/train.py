@@ -83,10 +83,9 @@ print(confusion_matrix(
     labels=model.classes_,
 ))
 
-# Визуализация PCA — добавлено Codex. Код обучения выше сохранён.
+# тут визуализацию делал ИИ 
 from sklearn.decomposition import PCA
 
-# PCA обучается только на train; validation использует те же оси.
 pca = PCA(n_components=2)
 train_2d = pca.fit_transform(X_train)
 validation_2d = pca.transform(X_validation)

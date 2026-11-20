@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASLT</title>
+</head>
+<body>
+
+    <video id="webcam" autoplay playsinline></video>
+
+    <header> 
+        <a href="/">logo</a>
+        <nav>
+            <a href="#about"> About us</a>
+        </nav>
+    </header>
+    <main>  
+        <h1> ASL Translator</h1> 
+        <p> blablabla</p>   
+    </main>
+
+    <style>
+    #webcam {
+        transform: scaleX(-1);
+        width: 640px;
+        max-width: 100%;
+    }
+    </style>
+
+    <script>
+        const video = document.getElementById('webcam');
+
+        async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false
+            });
+            video.srcObject = stream;
+        } catch (err) {
+            console.error('Ошибка доступа к камере:', err);
+        }
+        }
+
+        startCamera();
+    </script>
+
+    <footer>
+        © 2026 ASL-Translator
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

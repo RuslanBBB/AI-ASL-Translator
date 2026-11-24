@@ -1,0 +1,10 @@
+Иллюстрации букв A, B, C: wpclipart.com, общественное достояние.
+Растрированы и переведены в оттенки серого.
+https://commons.wikimedia.org/wiki/File:Sign_language_A.svg
+https://commons.wikimedia.org/wiki/File:Sign_language_B.svg
+https://commons.wikimedia.org/wiki/File:Sign_language_C.svg
+
+Шрифты Barlow Condensed и Roboto Condensed: SIL Open Font License 1.1.
+Тексты лицензий находятся в этой папке.
+
+Фотография для области камеры сгенерирована для проекта ASL-T.

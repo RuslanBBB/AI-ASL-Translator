@@ -1,46 +1,147 @@
-<header class="header">
-    <a class="logo" href="./">ASL-T</a>
-    <button type="button">Аккаунт</button>
-</header>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#141413">
+    <meta name="description" content="Студия американского жестового алфавита. Камера, библиотека букв и тренировка ASL.">
+    <title>ASL-T — Переводчик жестов</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="js/app.js"></script>
+</head>
+<body>
+    <a class="skip-link" href="#translator">К переводчику</a>
+    <header class="header">
+        <div class="wrap header-row">
+            <a class="logo" href="#translator" aria-label="ASL-T, переводчик">ASL<span>-</span>T<span class="logo-square" aria-hidden="true"></span></a>
+            <nav class="nav" aria-label="Главное меню">
+                <a href="#translator">Переводчик</a>
+                <a href="#library">Библиотека</a>
+                <a href="#training">Тренировка</a>
+            </nav>
+            <a class="button button-outline header-progress" href="#training">Мой прогресс <span id="nav-progress">0/3</span></a>
+        </div>
+    </header>
 
-<main class="translator">
-    <div class="mode-switch">
-        <button type="button">Статические</button>
-        <button type="button" disabled>Динамические</button>
-    </div>
+    <main>
+        <section id="translator" class="studio" aria-labelledby="translator-title">
+            <div class="wrap">
+                <div class="hero">
+                    <div>
+                        <p class="eyebrow"><span class="accent-square" aria-hidden="true"></span> Американский жестовый язык</p>
+                        <h1 id="translator-title" lang="en">ASL <span>TRANSLATOR</span></h1>
+                    </div>
+                    <p class="hero-note">Собирай текст по буквам.<br>Изучай жесты в своём темпе.</p>
+                </div>
 
-    <section class="camera-panel" aria-label="Камера">
-        <video id="webcam" autoplay playsinline muted></video>
-    </section>
+                <div class="studio-grid">
+                    <section class="camera-card" aria-labelledby="camera-title">
+                        <div class="card-bar">
+                            <h2 id="camera-title">Камера</h2>
+                            <span id="camera-indicator" class="camera-indicator"><span aria-hidden="true"></span><span id="camera-indicator-text">Выключена</span></span>
+                        </div>
+                        <div id="camera-frame" class="camera-frame">
+                            <video id="webcam" autoplay playsinline muted hidden></video>
+                            <div class="camera-overlay" aria-hidden="true">
+                                <i></i><i></i><i></i><i></i>
+                            </div>
+                        </div>
+                        <div class="camera-controls">
+                            <button id="camera-toggle" class="button button-accent" type="button"><span class="camera-icon" aria-hidden="true"></span><span id="camera-button-label">Включить камеру</span></button>
+                            <p id="camera-status" role="status">Для камеры потребуется разрешение браузера.</p>
+                        </div>
+                    </section>
 
-    <section class="result-panel">
-        <h2>Распознанный текст</h2>
-        <p>Здесь появится текст</p>
-    </section>
+                    <section class="output-card" aria-labelledby="output-title">
+                        <div class="card-bar">
+                            <h2 id="output-title">Ввод жестами</h2>
+                            <span class="mono output-language">ASL / EN</span>
+                        </div>
 
-    <section class="result-panel">
-        <h2>Перевод на русский</h2>
-        <p>Здесь появится перевод</p>
-    </section>
-    
-    <style>
-    #webcam {
-        transform: scaleX(-1);
-        width: 640px;
-        max-width: 100%;
-    }
-    </style>
+                        <div class="output-content">
+                            <div class="mode-switch" aria-label="Режим распознавания">
+                                <button class="mode-current" type="button" aria-pressed="true">Статические</button>
+                                <button type="button" disabled title="Режим в разработке">Динамические</button>
+                            </div>
+                            <div class="transcript">
+                                <label for="transcript">Текст</label>
+                                <textarea id="transcript" rows="4" placeholder="Здесь появятся буквы" spellcheck="false"></textarea>
+                                <div id="suggestions" class="suggestions" aria-label="Дополнения слова" hidden></div>
+                            </div>
+                            <p class="output-hint">Распознавание пока в разработке. Попробуй демо или введи текст с клавиатуры.</p>
+                            <div class="output-actions">
+                                <button id="demo-toggle" class="button button-outline" type="button" aria-controls="demo-controls" aria-expanded="false">Попробовать демо</button>
+                                <button id="clear-text" class="button button-text" type="button" disabled>Очистить</button>
+                            </div>
+                            <div id="demo-controls" class="demo-controls" aria-label="Демо ввода жестов" hidden>
+                                <button class="button button-outline" type="button" data-demo-letter="A">A</button>
+                                <button class="button button-outline" type="button" data-demo-letter="B">B</button>
+                                <button class="button button-outline" type="button" data-demo-letter="C">C</button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
 
-    <button class="training-button" type="button">
-        Тренировка
-    </button>
-</main>
+        <section id="library" class="library paper" aria-labelledby="library-title">
+            <div class="wrap">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Ручной алфавит ASL</p>
+                        <h2 id="library-title" class="display-heading">Библиотека жестов</h2>
+                    </div>
+                    <p>Начни с трёх букв. Открой карточку, чтобы посмотреть положение пальцев и попробовать жест.</p>
+                </div>
 
-<script src="js/camera.js"></script>
+                <div class="sign-grid">
+                    <button class="sign-card" type="button" data-sign="A" aria-label="Буква A, открыть тренировку">
+                        <span class="sign-letter" aria-hidden="true">A</span>
+                        <img src="assets/sign-A.webp" width="200" height="360" alt="" loading="lazy">
+                        <span class="sign-caption"><span>Буква A</span><span class="sign-marker" data-status-for="A">В тренировку</span></span>
+                    </button>
+                    <button class="sign-card" type="button" data-sign="B" aria-label="Буква B, открыть тренировку">
+                        <span class="sign-letter" aria-hidden="true">B</span>
+                        <img src="assets/sign-B.webp" width="200" height="360" alt="" loading="lazy">
+                        <span class="sign-caption"><span>Буква B</span><span class="sign-marker" data-status-for="B">В тренировку</span></span>
+                    </button>
+                    <button class="sign-card" type="button" data-sign="C" aria-label="Буква C, открыть тренировку">
+                        <span class="sign-letter" aria-hidden="true">C</span>
+                        <img src="assets/sign-C.webp" width="200" height="360" alt="" loading="lazy">
+                        <span class="sign-caption"><span>Буква C</span><span class="sign-marker" data-status-for="C">В тренировку</span></span>
+                    </button>
+                </div>
+            </div>
+        </section>
 
+        <section id="training" class="training" aria-labelledby="training-title">
+            <div class="wrap training-grid">
+                <div class="training-intro">
+                    <h2 id="training-title" class="display-heading">Тренировка</h2>
+                    <p>Повтори положение руки и отметь букву, когда сможешь показать её без подсказки.</p>
+                    <div class="progress-caption"><label for="progress-bar">Выучено</label> <span id="progress-value" role="status">0 из 3</span></div>
+                    <progress id="progress-bar" max="3" value="0">0 из 3</progress>
+                    <p class="progress-note" id="progress-note">Прогресс хранится в этом браузере.</p>
+                </div>
+                <div class="training-card">
+                    <div class="training-image paper"><img id="training-image" src="assets/sign-A.webp" width="200" height="360" alt="Жест буквы A"></div>
+                    <div class="training-details">
+                        <h3>Буква <span id="training-letter">A</span></h3>
+                        <p id="training-description">Сожми пальцы в кулак. Большой палец оставь сбоку, вдоль указательного.</p>
+                        <button id="learn-sign" class="button button-accent" type="button" aria-pressed="false">Отметить как выученную</button>
+                        <button id="next-sign" class="button button-outline" type="button">Следующая буква</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-
-
-
-
-
+    <footer class="footer">
+        <div class="wrap footer-row">
+            <a class="logo" href="#translator" aria-label="ASL-T, наверх">ASL<span>-</span>T</a>
+            <p>Учебный проект по распознаванию жестов ASL</p>
+            <a href="assets/credits.txt">Источники иллюстраций</a>
+        </div>
+    </footer>
+</body>
+</html>

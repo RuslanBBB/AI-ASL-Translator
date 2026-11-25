@@ -56,7 +56,7 @@ CONNECTIONS = [
 
 cap = cv2.VideoCapture(1)
 
-session_id = "session_01"
+session_id = "session_02"
 
 if not cap.isOpened():
     raise RuntimeError("Не удалось открыть камеру")

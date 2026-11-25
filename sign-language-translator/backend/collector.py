@@ -2,7 +2,7 @@
 import csv
 from pathlib import Path
 
-DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "landmarks.csv"
+DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "landmarks_xyz.csv"
 
 
 def save_sample(label, features, session_id):

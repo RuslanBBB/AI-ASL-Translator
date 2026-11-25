@@ -56,7 +56,7 @@ CONNECTIONS = [
 
 cap = cv2.VideoCapture(1)
 
-session_id = "session_01"
+session_id = "session_02"
 
 if not cap.isOpened():
     raise RuntimeError("Не удалось открыть камеру")
@@ -142,10 +142,11 @@ try:
                 print(f"Рука {hand_index + 1}")
 
                 for index in [4, 8, 12, 16, 20]:
-                    x = features[index * 2]
-                    y = features[index * 2 + 1]
+                    x = features[index * 3]
+                    y = features[index * 3 + 1]
+                    z = features[index * 3 + 2]
 
-                    print(f"Точка {index}: x={x:.3f}, y={y:.3f}")
+                    print(f"Точка {index}: x={x:.3f}, y={y:.3f}, z={z:.3f}")
 
             cv2.imshow("Hand Tracking", frame)
 

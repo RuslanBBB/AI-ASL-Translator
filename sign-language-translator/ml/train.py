@@ -10,7 +10,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 plt.style.use('ggplot')
 plt.rcParams['figure.figsize'] = (15, 5)
 
-DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "landmarks.csv"
+DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "landmarks_xyz.csv"
 
 # fixed_df = pd.read_csv(DATA_PATH) кол-во букв в датасете
 

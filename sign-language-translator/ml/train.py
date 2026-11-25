@@ -43,6 +43,7 @@ feature_columns = []
 for i in range(21):
     feature_columns.append(f"x{i}")
     feature_columns.append(f"y{i}")
+    feature_columns.append(f"z{i}")
 
 X_train = train_df[feature_columns]
 y_train = train_df["label"]
@@ -62,6 +63,7 @@ feature_columns_1 = []
 for i in range(21):
     feature_columns_1.append(f"x{i}")
     feature_columns_1.append(f"y{i}")
+    feature_columns_1.append(f"z{i}")
 
 
 X_validation = validation_df[feature_columns_1]
@@ -111,7 +113,7 @@ for i, label in enumerate(sorted(df["label"].unique())):
 
 ax.set_xlabel(f"PC1 — {variance[0]:.1%} дисперсии")
 ax.set_ylabel(f"PC2 — {variance[1]:.1%} дисперсии")
-ax.set_title("Примеры жестов: PCA с 42 признаков на 2 оси")
+ax.set_title("Примеры жестов: PCA с 63 признаков на 2 оси")
 ax.legend()
 ax.grid(alpha=0.3)
 fig.tight_layout()

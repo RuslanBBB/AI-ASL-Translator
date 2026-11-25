@@ -6,8 +6,8 @@ DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "landmarks.csv"
 
 
 def save_sample(label, features, session_id):
-    if len(features) != 42:
-        raise ValueError("Ожидалось 42 признака")
+    if len(features) != 63:
+        raise ValueError("Ожидалось 63 признака")
 
     need_header = (
         not DATA_PATH.exists()
@@ -23,6 +23,7 @@ def save_sample(label, features, session_id):
             for i in range(21):
                 header.append(f"x{i}")
                 header.append(f"y{i}")
+                header.append(f"z{i}")
 
             writer.writerow(header)
 

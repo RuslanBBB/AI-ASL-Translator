@@ -56,7 +56,7 @@ CONNECTIONS = [
 
 cap = cv2.VideoCapture(1)
 
-session_id = "session_02"
+session_id = "session_01"
 
 if not cap.isOpened():
     raise RuntimeError("Не удалось открыть камеру")
@@ -151,10 +151,10 @@ try:
 
             key = cv2.waitKey(1) & 0xFF
 
-            if key == ord("q"):
+            if key == ord("Q"):
                 break
 
-            if key in [ord("a"), ord("b"), ord("c"), ord("d"),ord('e'),ord("f")]:
+            if ord("a") <= key <= ord("z"):
                 if len(result.hand_landmarks) == 1:
                     label = chr(key).upper()
 

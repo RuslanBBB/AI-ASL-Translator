@@ -29,7 +29,7 @@ X_validation = validation_df[feature_columns]
 
 model = make_pipeline(
     StandardScaler(),
-    SVC(C=1, kernel="rbf",gamma='scale')
+    SVC(C=100, kernel="rbf",gamma='scale')
 )
 
 
@@ -40,5 +40,3 @@ y_pred = model.predict(X_validation)
 
 print("Accuracy:", accuracy_score(y_validation, y_pred))
 print(classification_report(y_validation, y_pred, zero_division=0))
-
-

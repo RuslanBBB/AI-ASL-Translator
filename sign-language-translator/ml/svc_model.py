@@ -25,6 +25,36 @@ df["fingers_crossed"] = (
     df["tip_dx"] * df["middle_dx"] < 0
 ).astype(int)
 
+def landmark_distance(df, point_a, point_b):
+    return np.sqrt(
+        (df[f"x{point_a}"] - df[f"x{point_b}"]) ** 2
+        + (df[f"y{point_a}"] - df[f"y{point_b}"]) ** 2
+        + (df[f"z{point_a}"] - df[f"z{point_b}"]) ** 2
+    )
+
+
+def finger_straightness(df, mcp, pip, dip, tip):
+    direct_distance = landmark_distance(df, mcp, tip)
+
+    finger_length = (
+        landmark_distance(df, mcp, pip)
+        + landmark_distance(df, pip, dip)
+        + landmark_distance(df, dip, tip)
+    )
+
+    return direct_distance / (finger_length + 1e-8)
+
+df["index_straightness"] = finger_straightness(
+    df, 5, 6, 7, 8
+)
+
+df["middle_straightness"] = finger_straightness(
+    df, 9, 10, 11, 12
+)
+
+df["pinky_straightness"] = finger_straightness(
+    df, 17, 18, 19, 20
+)
 
 train_df = df[df["session_id"] == "session_01"]
 feature_columns = []
@@ -39,6 +69,9 @@ feature_columns.extend([
     "tip_dx",
     "middle_dx",
     "fingers_crossed",
+    "index_straightness",
+    "middle_straightness",
+    "pinky_straightness",
 ])
 
 X_train = train_df[feature_columns]
@@ -52,7 +85,6 @@ model = make_pipeline(
     StandardScaler(),
     SVC(C=100, kernel="rbf",gamma='scale')
 )
-
 
 
 model.fit(X_train,y_train)

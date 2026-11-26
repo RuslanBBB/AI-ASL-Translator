@@ -4,12 +4,26 @@ from sklearn.svm import SVC
 from pathlib import Path
 import pandas as pd
 from sklearn.metrics import accuracy_score, classification_report
-
+import numpy as np
 
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "landmarks_xyz.csv"
 
 df = pd.read_csv(DATA_PATH)
+
+
+df["index_middle_distance"] = np.sqrt(
+    (df["x8"] - df["x12"]) ** 2
+    + (df["y8"] - df["y12"]) ** 2
+    + (df["z8"] - df["z12"]) ** 2
+)
+
+df["tip_dx"] = df["x8"] - df["x12"]
+df["middle_dx"] = df["x7"] - df["x11"]
+
+df["fingers_crossed"] = (
+    df["tip_dx"] * df["middle_dx"] < 0
+).astype(int)
 
 
 train_df = df[df["session_id"] == "session_01"]
@@ -19,6 +33,13 @@ for i in range(21):
     feature_columns.append(f"x{i}")
     feature_columns.append(f"y{i}")
     feature_columns.append(f"z{i}")
+
+feature_columns.extend([
+    "index_middle_distance",
+    "tip_dx",
+    "middle_dx",
+    "fingers_crossed",
+])
 
 X_train = train_df[feature_columns]
 y_train = train_df["label"]

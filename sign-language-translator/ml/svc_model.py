@@ -3,6 +3,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 from pathlib import Path
 import pandas as pd
+from sklearn.metrics import accuracy_score, classification_report
+
 
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "landmarks_xyz.csv"
@@ -23,24 +25,20 @@ y_train = train_df["label"]
 
 validation_df = df[df["session_id"] == "session_02"]
 
-feature_columns_1 = []
-
-for i in range(21):
-    feature_columns_1.append(f"x{i}")
-    feature_columns_1.append(f"y{i}")
-    feature_columns_1.append(f"z{i}")
-
-X_validation = validation_df[feature_columns_1]
-y_validation = validation_df['label']
-
+X_validation = validation_df[feature_columns]
 
 model = make_pipeline(
     StandardScaler(),
-    SVC(C=1, karnel="rbf",gamma='scale')
+    SVC(C=1, kernel="rbf",gamma='scale')
 )
 
 
 
 model.fit(X_train,y_train)
+y_validation = validation_df["label"]
 y_pred = model.predict(X_validation)
+
+print("Accuracy:", accuracy_score(y_validation, y_pred))
+print(classification_report(y_validation, y_pred, zero_division=0))
+
 
